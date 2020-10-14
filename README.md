@@ -40,11 +40,11 @@ Working with Safety Pilot is similar with the exception that the server where th
 1. Select the file of interest. In this example, the file is located on the UMTRI server at  `\\tri-esgdb\DataE\IvbssLv\Fot\001\Video\Cabin_001_0020.bin`. Make sure file resides in a directory that is accessible by the `MakeAviFile.exe` program. Copy file if necessary.
 2. Open the MakeAviFile program to convert the binary file. Select file/folder. Specify the frame rate and the frame height & width. Specify batch mode (or not). Specify filename name with `.avi` extension (not necessary for batch mode). Click `Create` button. This should create an AVI file that contains the entire trip.
 
-![screenshot of software](https://github.com/caocscar/midasdataset/blob/master/makeavifile-software.png)
+![screenshot of software](https://github.com/caocscar/how-to-make-video-clips-ivbss-safetypilot/blob/master/makeavifile-software.png)
 
 3. To trim the video to an arbitrary window, we use the software [ffmpeg](https://ffmpeg.org). But first, we need to look up the `CabinIndex` table on the UMTRI Server to get some additional information. Querying the driver/trip combination gives us the following results.
 
-![screenshot of SQL query](https://github.com/caocscar/midasdataset/blob/master/cabinindex.png)
+![screenshot of SQL query](https://github.com/caocscar/how-to-make-video-clips-ivbss-safetypilot/blob/master/cabinindex.png)
 
 We can see that `50284` is the closest `VideoTime` before the start of the window and `51533` is the closest `VideoTime` before the end of the window. These correspond to `CabinCount` frames of `1004` and `1029` respectively. We see that the video starts at `CabinCount = 1` based on row 1 (this is not always the case though). `CabinCount` can be thought of as the frame number for the Cabin video.
 
@@ -72,7 +72,7 @@ Done!
 
 3. We need to look up the `FaceIndex` table on the UMTRI Server to get some additional information. Querying the driver/trip combination gives us the following results.
 
-![screenshot of SQL query](https://github.com/caocscar/midasdataset/blob/master/faceindex.png)
+![screenshot of SQL query](https://github.com/caocscar/how-to-make-video-clips-ivbss-safetypilot/blob/master/faceindex.png)
 
 We can see that `50317` is the closest `VideoTime` before the start of the window and `51574` is the closest `VideoTime` before the end of the window. These correspond to `FaceCount` frames of `5027` and `5152` respectively. We see that the video starts at `FaceCount = 7` based on row 1. `FaceCount` can be thought of as the frame number for the Face video.
 
