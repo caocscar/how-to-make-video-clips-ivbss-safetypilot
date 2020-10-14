@@ -1,11 +1,16 @@
-# How To Make Video Clips from IVBSS or Safety Pilot
+# Table of Contents <!-- omit in toc -->
+- [Guide on How To Make Video Clips from IVBSS or Safety Pilot](#guide-on-how-to-make-video-clips-from-ivbss-or-safety-pilot)
+  - [IVBSS Videos](#ivbss-videos)
+  - [Safety Pilot Videos](#safety-pilot-videos)
+  - [Example #1 Calculation](#example-1-calculation)
+  - [Example #2 Calculation](#example-2-calculation)
+- [Coordinating Video and Kinematics Dataset](#coordinating-video-and-kinematics-dataset)
 
-## Instructions
-<hr>
+# Guide on How To Make Video Clips from IVBSS or Safety Pilot 
 
 ## IVBSS Videos
 1. Locate IVBSS video on the UMTRI server based on driver-id, camera view and trip number.
-Videos are located in the `\\tri-esgdb\DataE\IvbssLv\Fot` folder and marked as `.bin` files. You will need server access for this step. Videos are divided into folders by drivers. For example, Driver 2 and Trip Number 23 for the forward camera view can be found at:
+Videos are located in the `\\tri-esgdb\DataE\IvbssLv\Fot` folder and marked as `.bin` files. You will need server access for this step. Videos are divided into folders by drivers. For example, Driver 2 and Trip Number 23 for the forward camera view can be found at:  
 `\\tri-esgdb\DataE\IvbssLv\Fot\002\Video\Forward_002_0023.bin`
 
 2. Use Mich Rasulis' `MakeAviFile.exe` custom program to convert this customized file to an AVI file (manual step). Obtain software from Mich directly (mich@umich.edu). You will need to install the software on a **Windows** machine. I installed it at the root folder `C:\`. The program will construct an AVI file from the individual frames in the file with the timestamp you specified in fps. You can convert individual files or a folder. Forward and face videos are **10 fps** while cabin, left, right videos are **2 fps**. You should verify the frame rate in step 3 below as a sanity check. Frame height and width are 240 and 720 respectively.
@@ -84,3 +89,9 @@ This results in the command:
 `ffmpeg -i Face_001_0020.avi -ss 502 -to 514.5 -c copy Face_001_0020_trimmed.avi`
 
 **Note**: Notice how the times for the two examples are very similar even though the frame numbers are very different for the two camera views.
+
+
+<hr>
+
+# Coordinating Video and Kinematics Dataset
+The script `regression_models.py` is an example script I used to create a mapping between the time columns in Safety Pilot between video frames `VideoTime` (centiseconds since start of the trip) and the kinematics data `Gentime` (number of microseconds since Jan 1, 2004 (UTC +00:00)). 
