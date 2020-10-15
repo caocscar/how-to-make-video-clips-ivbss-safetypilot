@@ -15,7 +15,7 @@ Videos are located in the `\\tri-esgdb\DataE\IvbssLv\Fot` folder and marked as `
 
 2. Use Mich Rasulis' `MakeAviFile.exe` custom program to convert this customized file to an AVI file (manual step). Obtain software from Mich directly (mich@umich.edu). You will need to install the software on a **Windows** machine. I installed it at the root folder `C:\`. The program will construct an AVI file from the individual frames in the file with the timestamp you specified in fps. You can convert individual files or a folder. Forward and face videos are **10 fps** while cabin, left, right videos are **2 fps**. You should verify the frame rate in step 3 below as a sanity check. Frame height and width are 240 and 720 respectively.
 
-3. Query `{Cabin,Face,Forward,Left,Right}Index` table in `LvFot` database to find closest `VideoTime` to given timestamps (centiseconds). You can look at the difference between consecutive `VideoTime` to get an approximation of the frame rate. You will need server access for this step.
+3. Connect to the `tri-esgdb` server and query the `{Cabin,Face,Forward,Left,Right}Index` table in `LvFot` database to find closest `VideoTime` to given timestamps (centiseconds). You can look at the difference between consecutive `VideoTime` to get an approximation of the frame rate. You will need server access for this step.
 
 4. Find associated `{Cabin,Face,Forward,Left,Right}Count` (frame number).
 
@@ -32,7 +32,7 @@ where
 - `endtime` = (frame number at end of window - frame number at start of trip)/fps
 
 ## Safety Pilot Videos
-Working with Safety Pilot is similar with the exception that the server where the data resides is different. The Safety Pilot videos are located at `\\tri-spfs3\DasData2\SP` for light vehicles and motorcycles and `\\tri-spfs4\DasData\SP` for heavy trucks and buses.
+Working with Safety Pilot is similar with the exception that the server where the data resides is different. The Safety Pilot videos are located at `\\tri-spfs3\DasData2\SP` for light vehicles and motorcycles and `\\tri-spfs4\DasData\SP` for heavy trucks and buses. You would connect to the `tri-spdb1` server for step 3. The database would be `SpFot`. The index tables would be `Index{Cabin,Forward,Left,Right}`.
 
 ## Example #1 Calculation
 **Objective**: Create a video clip that corresponds to driver=1, trip=20, and cabin camera view between the timestamps 50330 and 51580 centiseconds from the IVBSS dataset.
@@ -89,7 +89,6 @@ This results in the command:
 `ffmpeg -i Face_001_0020.avi -ss 502 -to 514.5 -c copy Face_001_0020_trimmed.avi`
 
 **Note**: Notice how the times for the two examples are very similar even though the frame numbers are very different for the two camera views.
-
 
 <hr>
 
