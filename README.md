@@ -2,6 +2,7 @@
 - [Guide on How To Make Video Clips from IVBSS or Safety Pilot](#guide-on-how-to-make-video-clips-from-ivbss-or-safety-pilot)
   - [IVBSS Videos](#ivbss-videos)
   - [Safety Pilot Videos](#safety-pilot-videos)
+  - [Summary](#summary)
   - [Example #1 Calculation](#example-1-calculation)
   - [Example #2 Calculation](#example-2-calculation)
 - [Coordinating Video and Kinematics Dataset](#coordinating-video-and-kinematics-dataset)
@@ -15,7 +16,7 @@ Videos are located in the `\\tri-esgdb\DataE\IvbssLv\Fot` folder and marked as `
 
 2. Use Mich Rasulis' `MakeAviFile.exe` custom program to convert this customized file to an AVI file (manual step). Obtain software from Mich directly (mich@umich.edu). You will need to install the software on a **Windows** machine. I installed it at the root folder `C:\`. The program will construct an AVI file from the individual frames in the file with the timestamp you specified in fps. You can convert individual files or a folder. Forward and face videos are **10 fps** while cabin, left, right videos are **2 fps**. You should verify the frame rate in step 3 below as a sanity check. Frame height and width are 240 and 720 respectively.
 
-3. Connect to the `tri-esgdb` server and query the `{Cabin,Face,Forward,Left,Right}Index` table in `LvFot` database to find closest `VideoTime` to given timestamps (centiseconds). You can look at the difference between consecutive `VideoTime` to get an approximation of the frame rate. You will need server access for this step.
+3. Connect to the `tri-esgdb` server (using SQL Server Management Studio, Python, or R etc.) and query the `{Cabin,Face,Forward,Left,Right}Index` table in `LvFot` database to find closest `VideoTime` to given timestamps (centiseconds). You can look at the difference between consecutive `VideoTime` to get an approximation of the frame rate. You will need server access for this step.
 
 4. Find associated `{Cabin,Face,Forward,Left,Right}Count` (frame number).
 
@@ -34,10 +35,17 @@ where
 ## Safety Pilot Videos
 Working with Safety Pilot is similar with the exception that the server where the data resides is different. The Safety Pilot videos are located at `\\tri-spfs3\DasData2\SP` for light vehicles and motorcycles and `\\tri-spfs4\DasData\SP` for heavy trucks and buses. You would connect to the `tri-spdb1` server for step 3. The database would be `SpFot`. The index tables would be `Index{Cabin,Forward,Left,Right}`.
 
+## Summary
+Dataset|Video Location|Server|Database
+---|---|---|---
+IVBSS|`\\tri-esgdb\DataE\IvbssLv\Fot`|tri-esgdb|LvFot
+Safety Pilot|`\\tri-spfs3\DasData2\SP` or `\\tri-spfs4\DasData\SP`|tri-spdb1|SpFot
+
 ## Example #1 Calculation
 **Objective**: Create a video clip that corresponds to driver=1, trip=20, and cabin camera view between the timestamps 50330 and 51580 centiseconds from the IVBSS dataset.
 
 1. Select the file of interest. In this example, the file is located on the UMTRI server at  `\\tri-esgdb\DataE\IvbssLv\Fot\001\Video\Cabin_001_0020.bin`. Make sure file resides in a directory that is accessible by the `MakeAviFile.exe` program. Copy file if necessary.
+   
 2. Open the MakeAviFile program to convert the binary file. Select file/folder. Specify the frame rate and the frame height & width. Specify batch mode (or not). Specify filename name with `.avi` extension (not necessary for batch mode). Click `Create` button. This should create an AVI file that contains the entire trip.
 
 ![screenshot of software](https://github.com/caocscar/how-to-make-video-clips-ivbss-safetypilot/blob/master/makeavifile-software.png)
